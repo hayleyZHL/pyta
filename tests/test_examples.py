@@ -30,7 +30,12 @@ def create_test_function(test_file, checker_name):
     # The following are captured when this function is created.
     def new_test_func(self):
         found_pylint_message = False
-        output = subprocess.run(['pylint', '--reports=n', test_file], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+        output = subprocess.run(
+            ['pylint', '--reports=n',
+             '--rcfile=python_ta/.pylintrc',
+             test_file],
+            stderr=subprocess.STDOUT,
+            stdout=subprocess.PIPE)
         for line in output.stdout.decode('utf-8').split('\n'):
             if checker_name in line:
                 found_pylint_message = True
